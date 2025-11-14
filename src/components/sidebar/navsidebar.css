@@ -1,0 +1,18 @@
+.top-sidebar {
+  background-color: #e44432;
+}
+
+.navsidebar {
+  color: white;
+}
+
+.headingbar {
+  font-size: 1.25rem;
+  padding: 3% 2% 3% 2%;
+}
+
+.menubar {
+  font-size: 1.1rem;
+  padding: 1% 0 1% 0;
+  background-color: #2D2A2E;
+}
