@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export default function middleware(request) {
+export default function middleware(request: NextRequest) {
   const pathName = request.nextUrl.pathname;
 
   if (pathName === '/') {
