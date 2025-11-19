@@ -75,7 +75,7 @@ function DropdownAnimation({ isOpen, children }) {
       height: "auto",
       transition: {
         duration: 0.3,
-        ease: "easeOut"
+        ease: [0.25, 0.1, 0.25, 1]
       }
     },
     closed: {
@@ -83,7 +83,7 @@ function DropdownAnimation({ isOpen, children }) {
       height: 0,
       transition: {
         duration: 0.2,
-        ease: "easeIn"
+        ease: [0.42, 0, 0.58, 1]
       }
     }
   }
@@ -92,7 +92,7 @@ function DropdownAnimation({ isOpen, children }) {
     <AnimatePresence mode="wait">
       <motion.div
       className="overflow-hidden"
-      variants={dropdownAni}
+      variants={dropdownAni as any}
       initial="closed"
       animate={isOpen ? "open" : "closed"}
       >

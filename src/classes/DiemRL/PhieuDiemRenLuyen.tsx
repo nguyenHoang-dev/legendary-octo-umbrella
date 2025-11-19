@@ -4,10 +4,10 @@ import { v4 as uuid } from "uuid";
 class PhieuDiemRenLuyen {
   id: string;
 
-  tc1: AttitudeEval;
-  tc2: ComplianceEval;
-  tc3: ParticipationEval;
-  tc4: SocietalEval;
+  tc1: any;
+  tc2: any;
+  tc3: any;
+  tc4: any;
 
   constructor() {
     this.id = uuid();

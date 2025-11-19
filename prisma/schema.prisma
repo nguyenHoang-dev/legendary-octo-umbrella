@@ -1,0 +1,177 @@
+// File: prisma/schema.prisma
+
+// =======================================================
+// Datasource, Generator và Enums
+// =======================================================
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  SINH_VIEN
+  CAN_BO_LOP
+  GIANG_VIEN
+  ADMIN
+}
+
+enum TrangThaiThamGia {
+  CHO_DUYET
+  DA_DUYET
+  TU_CHOI
+}
+
+// =======================================================
+// 1. BẢNG LỚP HỌC (Lop)
+// =======================================================
+model Lop {
+    id_lop    Int     @id @default(autoincrement())
+    ten_lop   String  @unique @db.VarChar(50)
+    khoa      String? @db.VarChar(100)
+    SinhVien  SinhVien[] 
+}
+
+// =======================================================
+// 2. BẢNG HỌC KỲ (HocKy)
+// =======================================================
+model HocKy {
+    id_hoc_ky       Int       @id @default(autoincrement())
+    ten_hoc_ky      String    @unique @db.VarChar(100)
+    ngay_bat_dau    DateTime? @db.Date
+    ngay_ket_thuc   DateTime? @db.Date
+
+    CauHinhDiem     CauHinhDiem[]
+    HoatDong        HoatDong[]
+    DiemRenLuyen    DiemRenLuyen[]
+}
+
+// =======================================================
+// 3. BẢNG LOẠI TIÊU CHÍ (LoaiTieuChi)
+// =======================================================
+model LoaiTieuChi {
+    id_loai_tc  Int     @id @default(autoincrement())
+    ten_loai_tc String  @unique @db.VarChar(255)
+    
+    TieuChi     TieuChi[]
+    CauHinhDiem CauHinhDiem[]
+}
+
+// =======================================================
+// 4. BẢNG SINH VIÊN (SinhVien)
+// =======================================================
+model SinhVien {
+    ma_sv     String  @id @db.VarChar(20)
+    ho_ten    String  @db.VarChar(100)
+    email     String? @unique @db.VarChar(100)
+    
+    // Khóa ngoại tới Lop
+    id_lop    Int // <--- TRƯỜNG KHÓA NGOẠI
+    lop       Lop     @relation(fields: [id_lop], references: [id_lop])
+
+    TaiKhoan  TaiKhoan? // Quan hệ 1-1
+    ThamGia   ThamGia[]
+    DiemRenLuyen DiemRenLuyen[]
+}
+
+// =======================================================
+// 5. BẢNG TIÊU CHÍ CỤ THỂ (TieuChi)
+// =======================================================
+model TieuChi {
+    id_tieu_chi Int    @id @default(autoincrement())
+    ten_tieu_chi String @db.VarChar(255)
+    
+    // Khóa ngoại tới LoaiTieuChi
+    id_loai_tc  Int // <--- TRƯỜNG KHÓA NGOẠI
+    loai_tc     LoaiTieuChi @relation(fields: [id_loai_tc], references: [id_loai_tc])
+
+    HoatDong    HoatDong[]
+}
+
+// =======================================================
+// 6. BẢNG CẤU HÌNH ĐIỂM (NGƯỠNG)
+// =======================================================
+model CauHinhDiem {
+    id_cau_hinh Int @id @default(autoincrement())
+    
+    // Khóa ngoại
+    id_hoc_ky   Int // <--- TRƯỜNG KHÓA NGOẠI
+    id_loai_tc  Int // <--- TRƯỜNG KHÓA NGOẠI
+    diem_toi_da Int
+
+    hoc_ky      HocKy @relation(fields: [id_hoc_ky], references: [id_hoc_ky])
+    loai_tc     LoaiTieuChi @relation(fields: [id_loai_tc], references: [id_loai_tc])
+
+    @@unique([id_hoc_ky, id_loai_tc])
+}
+
+// =======================================================
+// 7. BẢNG HOẠT ĐỘNG (HoatDong)
+// =======================================================
+model HoatDong {
+    id_hoat_dong Int    @id @default(autoincrement())
+    ten_hoat_dong String @db.VarChar(255)
+    diem_du_kien Int
+    
+    // Khóa ngoại
+    id_tieu_chi  Int // <--- TRƯỜNG KHÓA NGOẠI
+    id_hoc_ky    Int // <--- TRƯỜNG KHÓA NGOẠI
+
+    tieu_chi    TieuChi @relation(fields: [id_tieu_chi], references: [id_tieu_chi])
+    hoc_ky      HocKy @relation(fields: [id_hoc_ky], references: [id_hoc_ky])
+
+    ThamGia     ThamGia[]
+}
+
+// =======================================================
+// 8. BẢNG THAM GIA HOẠT ĐỘNG (ThamGia)
+// =======================================================
+model ThamGia {
+    id_tham_gia   Int       @id @default(autoincrement())
+    diem_dat_duoc Int
+    ngay_ghi_nhan DateTime? @db.Date
+    minh_chung    String?   @db.VarChar(255)
+    trang_thai    TrangThaiThamGia @default(CHO_DUYET) 
+
+    // Khóa ngoại
+    ma_sv         String    @db.VarChar(20) // <--- TRƯỜNG KHÓA NGOẠI
+    id_hoat_dong  Int       // <--- TRƯỜNG KHÓA NGOẠI
+
+    sinh_vien     SinhVien @relation(fields: [ma_sv], references: [ma_sv])
+    hoat_dong     HoatDong @relation(fields: [id_hoat_dong], references: [id_hoat_dong])
+}
+
+// =======================================================
+// 9. BẢNG ĐIỂM RÈN LUYỆN TỔNG KẾT
+// =======================================================
+model DiemRenLuyen {
+    id_diem_rl Int @id @default(autoincrement())
+    tong_diem  Int
+    xep_loai   String @db.VarChar(50)
+    
+    // Khóa ngoại
+    ma_sv      String @db.VarChar(20) // <--- TRƯỜNG KHÓA NGOẠI
+    id_hoc_ky  Int // <--- TRƯỜNG KHÓA NGOẠI (LỖI Ở DÒNG 60 NẾU ĐÂY LÀ MODEL ĐÓ)
+
+    sinh_vien  SinhVien @relation(fields: [ma_sv], references: [ma_sv])
+    hoc_ky     HocKy @relation(fields: [id_hoc_ky], references: [id_hoc_ky])
+    
+    @@unique([ma_sv, id_hoc_ky])
+}
+
+// =======================================================
+// BẢNG TÀI KHOẢN (Authentication)
+// =======================================================
+model TaiKhoan {
+  id_tai_khoan  Int      @id @default(autoincrement())
+  ten_dang_nhap String   @unique @db.VarChar(100)
+  mat_khau      String
+  vai_tro       Role     @default(SINH_VIEN)
+  
+  // Khóa ngoại liên kết
+  ma_sv_lien_ket String? @unique @db.VarChar(20) // <--- TRƯỜNG KHÓA NGOẠI
+  sinh_vien      SinhVien? @relation(fields: [ma_sv_lien_ket], references: [ma_sv])
+}
