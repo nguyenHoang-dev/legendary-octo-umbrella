@@ -4,6 +4,7 @@ import QuanTriAccount from "./QuanTriAccount";
 
 type AccountRole = "Student" | "Admin"
 
+// Class xây dựng tài khoản
 class AccountBuilder {
   // Account
   private _id: string = uuid();
@@ -15,6 +16,7 @@ class AccountBuilder {
   private _msv?: string;
   private _idClass?: string;
   private _idPhieuDiemRenLuyen?: string;
+  private _isCanSu: boolean = false;
   // QuanTri
   private _idClassList: string[] = [];
 
@@ -50,6 +52,10 @@ class AccountBuilder {
     this._idPhieuDiemRenLuyen = idPhieuDiemRenLuyen;
     return this;
   }
+  public setCanSu(value: boolean) {
+    this._isCanSu = value;
+    return this;
+  }
 
   // Quan Tri
   public addClassID(idClass: string | string[]) {
@@ -79,7 +85,8 @@ class AccountBuilder {
               this._password,
               this._msv,
               this._idClass,
-              this._idPhieuDiemRenLuyen
+              this._idPhieuDiemRenLuyen,
+              this._isCanSu
             );
           else throw new Error("Missing data");
         }
