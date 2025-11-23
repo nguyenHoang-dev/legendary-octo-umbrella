@@ -1,13 +1,14 @@
 import { v4 as uuid } from "uuid";
 import SinhVienAccount from "./SinhVienAccount";
 import QuanTriAccount from "./QuanTriAccount";
+import AdminAccount from "./AdminAccount";
 
-type AccountRole = "Student" | "Admin"
+type AccountRole = "Student" | "QuanTri" | "Admin"
 
 // Class xây dựng tài khoản
 class AccountBuilder {
   // Account
-  private _id: string = uuid();
+  private _id!: string;
   private _email!: string;
   private _name!: string;
   private _password!: string;
@@ -15,7 +16,7 @@ class AccountBuilder {
   // Student
   private _msv?: string;
   private _idClass?: string;
-  private _idPhieuDiemRenLuyen?: string;
+  private _idPhieuDiemRenLuyen: string[] = [];
   private _isCanSu: boolean = false;
   // QuanTri
   private _idClassList: string[] = [];
@@ -38,6 +39,15 @@ class AccountBuilder {
     this._accountRole = role;
     return this;
   }
+  // TODO edit this
+  public setID(id: string) {
+    this._id = id;
+    return this;
+  }
+  public createID() {
+    this._id = uuid();
+    return this;
+  }
 
   // Student
   public setMSV(msv: string) {
@@ -48,8 +58,8 @@ class AccountBuilder {
     this._idClass = idClass;
     return this;
   }
-  public setPhieuRenLuyen(idPhieuDiemRenLuyen: string) {
-    this._idPhieuDiemRenLuyen = idPhieuDiemRenLuyen;
+  public addPhieuRenLuyen(...idPhieuDiemRenLuyen: string[]) {
+    this._idPhieuDiemRenLuyen.push(...idPhieuDiemRenLuyen);
     return this;
   }
   public setCanSu(value: boolean) {
@@ -58,13 +68,9 @@ class AccountBuilder {
   }
 
   // Quan Tri
-  public addClassID(idClass: string | string[]) {
-    if (typeof idClass === 'string')
-      this._idClassList.push(idClass);
-    else {
-      for (const id of idClass) {
-        this._idClassList.push(id);
-      }
+  public addClassID(...idClass: string[]) {
+    for (const id of idClass) {
+      this._idClassList.push(id);
     }
     return this;
   }
@@ -91,13 +97,22 @@ class AccountBuilder {
           else throw new Error("Missing data");
         }
 
-      case "Admin": {
+      case "QuanTri": {
         return new QuanTriAccount(
           this._id,
           this._name,
           this._email,
           this._password,
           this._idClassList
+        )
+      }
+
+      case "Admin": {
+        return new AdminAccount(
+          this._id,
+          this._name,
+          this._email,
+          this._password,
         )
       }
       

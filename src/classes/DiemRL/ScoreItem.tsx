@@ -1,16 +1,16 @@
 
 
 class ScoreItem {
-  min: number;
-  max: number;
-  private _student: number;
-  private _studentDirector: number;
-  private _comitee: number;
+  private _min: number;
+  private _max: number;
+  private _student: number | null;
+  private _studentDirector: number | null;
+  private _comitee: number | null;
   description: string;
 
   constructor(min: number, max: number, description: string = "") {
-    this.min = min;
-    this.max = max;
+    this._min = min;
+    this._max = max;
     this.description = description;
     this._student = 0;
     this._studentDirector = 0;
@@ -18,31 +18,37 @@ class ScoreItem {
   }
 
   private isScoreValid(score: number): boolean {
-    return score >= this.min && score <= this.max;
+    return score >= this._min && score <= this._max;
+  }
+
+  public setOverallScore(score: number): void {
+    this._student = score;
+    this._studentDirector = score;
+    this._comitee = score;
   }
 
   public set student(score: number) {
-    if (this.isScoreValid(this._student)) this._student = score;
-    else throw new Error(`Score must be between ${this.min} & ${this.max}`);
+    if (this.isScoreValid(score)) this._student = score;
+    else throw new Error(`Score must be between ${this._min} & ${this._max}`);
   }
-  public get student(): number {
+  public get student(): number | null {
     return this._student;
   }
 
   public set studentDirector(score: number) {
-    if (this.isScoreValid(this._studentDirector)) this._studentDirector = score;
-    else throw new Error(`Score must be between ${this.min} & ${this.max}`);
+    if (this.isScoreValid(score)) this._studentDirector = score;
+    else throw new Error(`Score must be between ${this._min} & ${this._max}`);
   }
-  public get studentDirector(): number {
-    return this._student;
+  public get studentDirector(): number | null {
+    return this._studentDirector;
   }
 
   public set comitee(score: number) {
-    if (this.isScoreValid(this._comitee)) this._comitee = score;
-    else throw new Error(`Score must be between ${this.min} & ${this.max}`);
+    if (this.isScoreValid(score)) this._comitee = score;
+    else throw new Error(`Score must be between ${this._min} & ${this._max}`);
   }
-  public get comitee(): number {
-    return this._student;
+  public get comitee(): number | null {
+    return this._comitee;
   }
 }
 

@@ -34,14 +34,22 @@ class DiemRenLuyen {
   #tongDiem: number;
 
   constructor(tongDiem: number) {
-    this.#tongDiem = tongDiem;
+    if (this.validateScore(tongDiem)) 
+      this.#tongDiem = tongDiem;
+    else throw Error(`Score must be between 0 and 100, score is ${tongDiem}`)
+  }
+
+  private validateScore(value: number) {
+    return (value >= -25) && (value <= 100);
   }
 
   public get tongDiem(): number {
     return this.#tongDiem;
   }
   public set tongDiem(value: number) {
-    this.#tongDiem = value;
+    if (this.validateScore(value))
+      this.#tongDiem = value;
+    else throw Error(`Score must be between 0 and 100, score is ${value}`)
   }
 
   public get xepLoai(): string {

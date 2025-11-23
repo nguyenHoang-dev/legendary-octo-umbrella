@@ -1,25 +1,33 @@
 import Account from "./Account";
 
-
 class QuanTriAccount extends Account {
   private _idClassList: string[] = [];
-  
+
   constructor(
     id: string,
     name: string,
     email: string,
     password: string,
-    idClassList: string[],
+    idClassList: string[]
   ) {
     super(id, name, email, password);
     this._idClassList = idClassList;
   }
 
+  public addClassID(...idClass: string[]) {
+    for (const id of idClass) {
+      this._idClassList.push(id);
+    }
+  }
 
-  public get idClassList_1(): string[] {
+  public removeClassID(...idClass: string[]) {
+    this._idClassList = this._idClassList.filter(id => !idClass.includes(id))
+  }
+
+  public get idClassList(): string[] {
     return this._idClassList;
   }
-  public set idClassList_1(value: string[]) {
+  public set idClassList(value: string[]) {
     this._idClassList = value;
   }
 }
