@@ -16,6 +16,8 @@ type ScoreObj = {
   lawsBroken: ScoreItem;
 };
 
+
+// Điểm tiêu chí 4: Kỹ năng sống và hoạt động xã hội
 class SocietalEval extends EvalBase<ScoreObj> {
   constructor() {
     super({

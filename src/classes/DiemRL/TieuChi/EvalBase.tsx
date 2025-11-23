@@ -1,3 +1,4 @@
+import { ScoreItemJSON } from "@/types/jsonTypes";
 import ScoreItem from "../ScoreItem";
 
 class EvalBase<T extends Record<string, ScoreItem>> {
@@ -5,6 +6,15 @@ class EvalBase<T extends Record<string, ScoreItem>> {
 
   constructor(scores: T) {
     this._scores = scores;
+  }
+
+  // Biến đổi ra dạng JSON của từng item trong key
+  public toJSON() {
+    const json = {} as { [K in keyof T]: ScoreItemJSON };
+    for (const key in this._scores) {
+      json[key] = this._scores[key].toJSON();
+    }
+    return json;
   }
 
   public get scores(): T {

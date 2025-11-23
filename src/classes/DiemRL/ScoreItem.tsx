@@ -1,4 +1,4 @@
-
+import { ScoreItemJSON } from "@/types/jsonTypes";
 
 class ScoreItem {
   private _min: number;
@@ -25,6 +25,14 @@ class ScoreItem {
     this._student = score;
     this._studentDirector = score;
     this._comitee = score;
+  }
+
+  public toJSON(): ScoreItemJSON {
+    return {
+      student: this._student,
+      studentDirector: this._studentDirector,
+      comitee: this._comitee
+    }
   }
 
   public set student(score: number) {

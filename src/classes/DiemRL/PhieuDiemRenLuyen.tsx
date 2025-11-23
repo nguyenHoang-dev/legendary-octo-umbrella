@@ -6,7 +6,7 @@ import DiemRenLuyen from "./DiemRenLuyen";
 
 class PhieuDiemRenLuyen {
   private _id: string;
-  private _hocKy: number;
+  private _hocKy: 1 | 2;
   private _namHoc: number;
   
   private _tc1: AttitudeEval;
@@ -14,7 +14,7 @@ class PhieuDiemRenLuyen {
   private _tc3: ParticipationEval;
   private _tc4: SocietalEval;
   
-  constructor(id: string, hocKy: number, namHoc: number) {
+  constructor(id: string, hocKy: 1 | 2, namHoc: number) {
     this._id = id;
     this._hocKy = hocKy;
     this._namHoc = namHoc;
@@ -27,6 +27,16 @@ class PhieuDiemRenLuyen {
   // TODO func cho tạo lại class từ dữ liệu db
   public static rebuildFromJSON;
   
+  // Lấy dạng JSON để lưu trữ
+  public toJSON() {
+    return {
+      attitudeEval: this._tc1.toJSON(),
+      complianceEval: this._tc2.toJSON(),
+      participationEval: this._tc3.toJSON(),
+      societalEval: this._tc4.toJSON()
+    }
+  }
+
   public get studentJudge() {
     return new DiemRenLuyen(
       this._tc1.totalStudentScore +
@@ -61,14 +71,10 @@ class PhieuDiemRenLuyen {
     return this._id;
   }
   
-  public get attitudeEval() {
-    return this._tc1;
-  }
-
   public get hocKy(): number {
     return this._hocKy;
   }
-  public set hocKy(value: number) {
+  public set hocKy(value: 1 | 2) {
     this._hocKy = value;
   }
 
@@ -77,6 +83,10 @@ class PhieuDiemRenLuyen {
   }
   public set namHoc(value: number) {
     this._namHoc = value;
+  }
+
+  public get attitudeEval() {
+    return this._tc1;
   }
   
   public get complianceEval() {
