@@ -3,68 +3,101 @@ import ComplianceEval from "./TieuChi/ComplianceEval";
 import ParticipationEval from "./TieuChi/ParticipationEval";
 import SocietalEval from "./TieuChi/SocietalEval";
 import DiemRenLuyen from "./DiemRenLuyen";
+import EvalBase from "./TieuChi/EvalBase";
+import ScoreItem, { ScoreItemJSON } from "./ScoreItem";
+
+// type object tạo ra bởi toJSON
+export type PhieuRenLuyenJSON = ReturnType<PhieuDiemRenLuyen["toJSON"]>
 
 class PhieuDiemRenLuyen {
   private _id: string;
   private _hocKy: 1 | 2;
   private _namHoc: number;
-  
-  private _tc1: AttitudeEval;
-  private _tc2: ComplianceEval;
-  private _tc3: ParticipationEval;
-  private _tc4: SocietalEval;
+  // Tất cả các tiêu chí object
+  private _tc: {
+    attitudeEval: AttitudeEval,
+    complianceEval: ComplianceEval,
+    participationEval: ParticipationEval,
+    societalEVal: SocietalEval
+  }
   
   constructor(id: string, hocKy: 1 | 2, namHoc: number) {
     this._id = id;
     this._hocKy = hocKy;
     this._namHoc = namHoc;
-    this._tc1 = new AttitudeEval();
-    this._tc2 = new ComplianceEval();
-    this._tc3 = new ParticipationEval();
-    this._tc4 = new SocietalEval();
+    this._tc = {
+      attitudeEval: new AttitudeEval(),
+      complianceEval: new ComplianceEval(),
+      participationEval: new ParticipationEval(),
+      societalEVal: new SocietalEval(),
+    }
   }
-  
   // TODO func cho tạo lại class từ dữ liệu db
-  public static rebuildFromJSON;
+  public static rebuildFromJSON(json: PhieuRenLuyenJSON) {
+    const newInstance = new PhieuDiemRenLuyen(json.id, json.hocKy, json.namHoc);
+
+    for (const key in newInstance.tc) {
+      PhieuDiemRenLuyen.applyScoresFromJSON(newInstance.tc[key], json[key]);
+    }
+
+    return newInstance;
+  }
+  // Helper để nhập điểm của tiêu chí từ json
+  public static applyScoresFromJSON(
+    evalObj: EvalBase<Record<string, ScoreItem>>,
+    json: Record<string, ScoreItemJSON>
+  ) {
+    for (const key in json) {
+      const scoreItem = evalObj.scores[key];
+      const jsonItem = json[key];
+
+      if (!scoreItem) continue;
+
+      scoreItem.student = jsonItem.student;
+      scoreItem.studentDirector = jsonItem.studentDirector;
+      scoreItem.comitee = jsonItem.comitee;
+    }
+  }
   
   // Lấy dạng JSON để lưu trữ
   public toJSON() {
     return {
-      attitudeEval: this._tc1.toJSON(),
-      complianceEval: this._tc2.toJSON(),
-      participationEval: this._tc3.toJSON(),
-      societalEval: this._tc4.toJSON()
+      id: this._id,
+      hocKy: this._hocKy,
+      namHoc: this._namHoc,
+      ...this.toEvalJSON()
     }
   }
 
+  // Lấy điẻm theo dạng JSON để sử dụng
+  public toEvalJSON() {
+    return {
+      attitudeEval: this._tc.attitudeEval.toJSON(),
+      complianceEval: this._tc.complianceEval.toJSON(),
+      participationEval: this._tc.participationEval.toJSON(),
+      societalEval: this._tc.societalEVal.toJSON(),
+    };
+  }
+
   public get studentJudge() {
-    return new DiemRenLuyen(
-      this._tc1.totalStudentScore +
-      this._tc2.totalStudentScore +
-      this._tc3.totalStudentScore +
-      this._tc4.totalStudentScore +
-      10
+    const sum = Object.values(this.tc).reduce(
+      (sum, tc) => (sum + tc.totalStudentScore), 0
     )
+    return new DiemRenLuyen(sum + 10);
   }
   
   public get studentDirectorJudge() {
-    return new DiemRenLuyen(
-      this._tc1.totalStudentDirectorScore +
-      this._tc2.totalStudentDirectorScore +
-      this._tc3.totalStudentDirectorScore +
-      this._tc4.totalStudentDirectorScore +
-      10
+    const sum = Object.values(this.tc).reduce(
+      (sum, tc) => (sum + tc.totalStudentDirectorScore), 0
     )
+    return new DiemRenLuyen(sum + 10);
   }
   
   public get comiteeJudge() {
-    return new DiemRenLuyen(
-      this._tc1.totalComiteeScore +
-      this._tc2.totalComiteeScore +
-      this._tc3.totalComiteeScore +
-      this._tc4.totalComiteeScore +
-      10
+    const sum = Object.values(this.tc).reduce(
+      (sum, tc) => (sum + tc.totalComiteeScore), 0
     )
+    return new DiemRenLuyen(sum + 10);
   }
   
   public get id() {
@@ -85,20 +118,8 @@ class PhieuDiemRenLuyen {
     this._namHoc = value;
   }
 
-  public get attitudeEval() {
-    return this._tc1;
-  }
-  
-  public get complianceEval() {
-    return this._tc2;
-  }
-
-  public get participationEval() {
-    return this._tc3;
-  }
-
-  public get societalEval() {
-    return this._tc4;
+  public get tc() {
+    return this._tc;
   }
 }
 

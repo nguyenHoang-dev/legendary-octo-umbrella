@@ -1,5 +1,5 @@
-import { ScoreItemJSON } from "@/types/jsonTypes";
 
+export type ScoreItemJSON = ReturnType<ScoreItem["toJSON"]>
 class ScoreItem {
   private _min: number;
   private _max: number;
@@ -12,12 +12,13 @@ class ScoreItem {
     this._min = min;
     this._max = max;
     this.description = description;
-    this._student = 0;
-    this._studentDirector = 0;
-    this._comitee = 0;
+    this._student = null;
+    this._studentDirector = null;
+    this._comitee = null;
   }
 
-  private isScoreValid(score: number): boolean {
+  private isScoreValid(score: number | null): boolean {
+    if (!score) return true;
     return score >= this._min && score <= this._max;
   }
 
@@ -27,7 +28,7 @@ class ScoreItem {
     this._comitee = score;
   }
 
-  public toJSON(): ScoreItemJSON {
+  public toJSON() {
     return {
       student: this._student,
       studentDirector: this._studentDirector,
@@ -35,7 +36,7 @@ class ScoreItem {
     }
   }
 
-  public set student(score: number) {
+  public set student(score: number | null) {
     if (this.isScoreValid(score)) this._student = score;
     else throw new Error(`Score must be between ${this._min} & ${this._max}`);
   }
@@ -43,7 +44,7 @@ class ScoreItem {
     return this._student;
   }
 
-  public set studentDirector(score: number) {
+  public set studentDirector(score: number | null) {
     if (this.isScoreValid(score)) this._studentDirector = score;
     else throw new Error(`Score must be between ${this._min} & ${this._max}`);
   }
@@ -51,12 +52,20 @@ class ScoreItem {
     return this._studentDirector;
   }
 
-  public set comitee(score: number) {
+  public set comitee(score: number | null) {
     if (this.isScoreValid(score)) this._comitee = score;
     else throw new Error(`Score must be between ${this._min} & ${this._max}`);
   }
   public get comitee(): number | null {
     return this._comitee;
+  }
+
+  public get min(): number {
+  return this._min;
+  
+  }
+  public get max(): number {
+    return this._max;
   }
 }
 

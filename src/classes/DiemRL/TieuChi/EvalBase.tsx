@@ -1,5 +1,4 @@
-import { ScoreItemJSON } from "@/types/jsonTypes";
-import ScoreItem from "../ScoreItem";
+import ScoreItem, { ScoreItemJSON } from "../ScoreItem";
 
 class EvalBase<T extends Record<string, ScoreItem>> {
   protected _scores: T;
@@ -23,23 +22,26 @@ class EvalBase<T extends Record<string, ScoreItem>> {
 
   public get totalStudentScore(): number {
     return Object.values(this._scores).reduce(
-      (sum, score) => sum + (score.student ?? 0),
-      0
+      (sum, score) => sum + (score.student ?? 0), 0
     );
   }
 
   public get totalStudentDirectorScore(): number {
     return Object.values(this._scores).reduce(
-      (sum, score) => sum + (score.studentDirector ?? 0),
-      0
+      (sum, score) => sum + (score.studentDirector ?? 0), 0
     );
   }
 
   public get totalComiteeScore(): number {
     return Object.values(this._scores).reduce(
-      (sum, score) => sum + (score.comitee ?? 0),
-      0
+      (sum, score) => sum + (score.comitee ?? 0), 0
     );
+  }
+
+  public get totalMaxScore(): number {
+    return Object.values(this._scores).reduce(
+      (sum, score) => sum + score.max, 0
+    )
   }
 }
 
