@@ -79,6 +79,7 @@ class PhieuDiemRenLuyen {
     };
   }
 
+  // Những getter lấy tổng điểm vào helper object giúp ra xếp loại
   public get studentJudge() {
     const sum = Object.values(this.tc).reduce(
       (sum, tc) => (sum + tc.totalStudentScore), 0
