@@ -2,16 +2,15 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  background: linear-gradient(360deg, #f5ffff 0%, #f4f4f4 25%, #f4f4f4 100%);
   margin: 0;
   padding: 0;
   color: #222;
 }
 
-.container {
+.div-container {
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
   padding: 4px 12px;
   background-color: white;
-  margin: 20px;
 }
