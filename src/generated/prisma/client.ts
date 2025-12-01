@@ -29,8 +29,8 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Accounts
- * const accounts = await prisma.account.findMany()
+ * // Fetch zero or more Lops
+ * const lops = await prisma.lop.findMany()
  * ```
  * 
  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
@@ -45,7 +45,42 @@ path.join(__dirname, "libquery_engine-debian-openssl-1.1.x.so.node")
 path.join(process.cwd(), "src/generated/prisma/libquery_engine-debian-openssl-1.1.x.so.node")
 
 /**
- * Model Account
+ * Model Lop
  * 
  */
-export type Account = Prisma.AccountModel
+export type Lop = Prisma.LopModel
+/**
+ * Model HocKy
+ * 
+ */
+export type HocKy = Prisma.HocKyModel
+/**
+ * Model SinhVien
+ * 
+ */
+export type SinhVien = Prisma.SinhVienModel
+/**
+ * Model QuanTri
+ * 
+ */
+export type QuanTri = Prisma.QuanTriModel
+/**
+ * Model HoatDong
+ * 
+ */
+export type HoatDong = Prisma.HoatDongModel
+/**
+ * Model ThamGia
+ * 
+ */
+export type ThamGia = Prisma.ThamGiaModel
+/**
+ * Model DiemRenLuyen
+ * 
+ */
+export type DiemRenLuyen = Prisma.DiemRenLuyenModel
+/**
+ * Model TaiKhoan
+ * 
+ */
+export type TaiKhoan = Prisma.TaiKhoanModel

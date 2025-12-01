@@ -8,5 +8,12 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/Account'
+export type * from './models/Lop'
+export type * from './models/HocKy'
+export type * from './models/SinhVien'
+export type * from './models/QuanTri'
+export type * from './models/HoatDong'
+export type * from './models/ThamGia'
+export type * from './models/DiemRenLuyen'
+export type * from './models/TaiKhoan'
 export type * from './commonInputTypes'

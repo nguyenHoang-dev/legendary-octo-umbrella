@@ -10,10 +10,19 @@
 */
 
 export const Role = {
-  student: 'student',
-  quantri: 'quantri',
-  cansu: 'cansu',
-  admin: 'admin'
+  Student: 'Student',
+  CanSu: 'CanSu',
+  QuanTri: 'QuanTri',
+  Admin: 'Admin'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const TrangThaiThamGia = {
+  cho_duyet: 'cho_duyet',
+  da_duyet: 'da_duyet',
+  tu_choi: 'tu_choi'
+} as const
+
+export type TrangThaiThamGia = (typeof TrangThaiThamGia)[keyof typeof TrangThaiThamGia]

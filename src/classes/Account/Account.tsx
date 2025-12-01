@@ -5,7 +5,7 @@ abstract class Account {
   protected _email: string;
   protected _password: string;
   protected _picture: string;
-  protected _createdAt: Date;
+  // protected _createdAt: Date;
 
   public name = '';
 
@@ -15,7 +15,7 @@ abstract class Account {
     this._email = email;
     this._password = password;
     this._picture = "default";
-    this._createdAt = new Date();
+    // this._createdAt = new Date();
   }
 
   public get id(): string {
@@ -26,9 +26,9 @@ abstract class Account {
     return this._email;
   }
 
-  public get createdAt(): Date {
-    return this._createdAt;
-  }
+  // public get createdAt(): Date {
+  //   return this._createdAt;
+  // }
 
   public changeEmail(value: string) {
     if (!value.includes("@")) return false;

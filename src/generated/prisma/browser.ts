@@ -18,7 +18,42 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
- * Model Account
+ * Model Lop
  * 
  */
-export type Account = Prisma.AccountModel
+export type Lop = Prisma.LopModel
+/**
+ * Model HocKy
+ * 
+ */
+export type HocKy = Prisma.HocKyModel
+/**
+ * Model SinhVien
+ * 
+ */
+export type SinhVien = Prisma.SinhVienModel
+/**
+ * Model QuanTri
+ * 
+ */
+export type QuanTri = Prisma.QuanTriModel
+/**
+ * Model HoatDong
+ * 
+ */
+export type HoatDong = Prisma.HoatDongModel
+/**
+ * Model ThamGia
+ * 
+ */
+export type ThamGia = Prisma.ThamGiaModel
+/**
+ * Model DiemRenLuyen
+ * 
+ */
+export type DiemRenLuyen = Prisma.DiemRenLuyenModel
+/**
+ * Model TaiKhoan
+ * 
+ */
+export type TaiKhoan = Prisma.TaiKhoanModel

@@ -49,7 +49,14 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 
 export const ModelName = {
-  Account: 'Account'
+  Lop: 'Lop',
+  HocKy: 'HocKy',
+  SinhVien: 'SinhVien',
+  QuanTri: 'QuanTri',
+  HoatDong: 'HoatDong',
+  ThamGia: 'ThamGia',
+  DiemRenLuyen: 'DiemRenLuyen',
+  TaiKhoan: 'TaiKhoan'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -68,19 +75,84 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const AccountScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  name: 'name',
-  passwordHash: 'passwordHash',
-  accountRole: 'accountRole',
-  msv: 'msv',
-  idClass: 'idClass',
-  idPhieuDiemRenLuyen: 'idPhieuDiemRenLuyen',
-  idClassList: 'idClassList'
+export const LopScalarFieldEnum = {
+  id_lop: 'id_lop',
+  ten_lop: 'ten_lop',
+  khoa: 'khoa',
+  quanTriMa_qt: 'quanTriMa_qt'
 } as const
 
-export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+export type LopScalarFieldEnum = (typeof LopScalarFieldEnum)[keyof typeof LopScalarFieldEnum]
+
+
+export const HocKyScalarFieldEnum = {
+  id_hoc_ky: 'id_hoc_ky',
+  ngay_bat_dau: 'ngay_bat_dau',
+  ngay_ket_thuc: 'ngay_ket_thuc'
+} as const
+
+export type HocKyScalarFieldEnum = (typeof HocKyScalarFieldEnum)[keyof typeof HocKyScalarFieldEnum]
+
+
+export const SinhVienScalarFieldEnum = {
+  ma_sv: 'ma_sv',
+  id_lop: 'id_lop',
+  taiKhoanId: 'taiKhoanId'
+} as const
+
+export type SinhVienScalarFieldEnum = (typeof SinhVienScalarFieldEnum)[keyof typeof SinhVienScalarFieldEnum]
+
+
+export const QuanTriScalarFieldEnum = {
+  ma_qt: 'ma_qt',
+  taiKhoanId: 'taiKhoanId'
+} as const
+
+export type QuanTriScalarFieldEnum = (typeof QuanTriScalarFieldEnum)[keyof typeof QuanTriScalarFieldEnum]
+
+
+export const HoatDongScalarFieldEnum = {
+  id_hoat_dong: 'id_hoat_dong',
+  ten_hoat_dong: 'ten_hoat_dong',
+  id_hoc_ky: 'id_hoc_ky'
+} as const
+
+export type HoatDongScalarFieldEnum = (typeof HoatDongScalarFieldEnum)[keyof typeof HoatDongScalarFieldEnum]
+
+
+export const ThamGiaScalarFieldEnum = {
+  id_tham_gia: 'id_tham_gia',
+  diem_dat_duoc: 'diem_dat_duoc',
+  ngay_ghi_nhan: 'ngay_ghi_nhan',
+  minh_chung: 'minh_chung',
+  trang_thai: 'trang_thai',
+  ma_sv: 'ma_sv',
+  id_hoat_dong: 'id_hoat_dong'
+} as const
+
+export type ThamGiaScalarFieldEnum = (typeof ThamGiaScalarFieldEnum)[keyof typeof ThamGiaScalarFieldEnum]
+
+
+export const DiemRenLuyenScalarFieldEnum = {
+  id_diem_rl: 'id_diem_rl',
+  cac_diem_tc: 'cac_diem_tc',
+  ma_sv: 'ma_sv',
+  id_hoc_ky: 'id_hoc_ky'
+} as const
+
+export type DiemRenLuyenScalarFieldEnum = (typeof DiemRenLuyenScalarFieldEnum)[keyof typeof DiemRenLuyenScalarFieldEnum]
+
+
+export const TaiKhoanScalarFieldEnum = {
+  id: 'id',
+  ten: 'ten',
+  email: 'email',
+  mat_khau: 'mat_khau',
+  anh: 'anh',
+  vai_tro: 'vai_tro'
+} as const
+
+export type TaiKhoanScalarFieldEnum = (typeof TaiKhoanScalarFieldEnum)[keyof typeof TaiKhoanScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -89,6 +161,13 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -105,4 +184,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
