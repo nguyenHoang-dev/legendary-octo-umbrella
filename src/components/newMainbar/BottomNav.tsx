@@ -4,15 +4,24 @@ import { useState } from "react";
 import BottomNavBar from "./BottomNavBar";
 import BottomNavButton from "./BottonNavButton";
 import { pageTabLists } from "./mainTabList";
+import { PageTab } from "@/types/PageTab";
 
 
-function BottomNav() {
+function BottomNav({ accountRole }: { accountRole: string }) {
   const [tab, setTab] = useState("Dashboard")
-  const studentTabs = pageTabLists.student;
+  let tabs: PageTab[];
+
+  if (accountRole === "Admin") {
+    tabs = pageTabLists.admin;
+  } else if (accountRole === "QuanTri") {
+    tabs = pageTabLists.quanTri;
+  } else {
+    tabs = pageTabLists.student;
+  }
 
   return (
     <BottomNavBar>
-      {studentTabs.map((menuTab) => (
+      {tabs.map((menuTab) => (
         <BottomNavButton 
           key={menuTab.name}
           typography={menuTab.name} 

@@ -30,6 +30,10 @@ abstract class Account {
   //   return this._createdAt;
   // }
 
+  public static createDefaultEmail(id: string) {
+    return id + "@ptit.school";
+  }
+
   public changeEmail(value: string) {
     if (!value.includes("@")) return false;
     this._email = value;

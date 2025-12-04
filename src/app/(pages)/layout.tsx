@@ -2,9 +2,20 @@
 // import FrozenRoute from "@/components/HOC/FrozenRoute";
 import BottomNav from "@/components/newMainbar/BottomNav";
 import PageRedBar from "@/components/PageRedBar";
+import { auth } from "@/lib/auth";
 import { ChildrenNode } from "@/types/Misc";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function PageLayout({ children }: ChildrenNode) {
+export default async function PageLayout({ children }: ChildrenNode) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/sign-in")
+  }
+
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden">
       {/* Deco */}
@@ -17,7 +28,7 @@ export default function PageLayout({ children }: ChildrenNode) {
 
       {/* Mục di chuyển ở dưới */}
       <div className="h-20">
-        <BottomNav />
+        <BottomNav accountRole={session.user.role} />
       </div>
     </div>
   );

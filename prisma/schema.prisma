@@ -68,12 +68,14 @@ model HocKy {
 // =======================================================
 model SinhVien {
   ma_sv String @id @db.VarChar(20)
+  isCanSu Boolean @default(false)
+  khoa_nam Int?
   // ho_ten    String  @db.VarChar(100)
   // email     String  @unique @db.VarChar(100)
 
   // Khóa ngoại tới Lop
-  id_lop Int // <--- TRƯỜNG KHÓA NGOẠI
-  lop    Lop @relation(fields: [id_lop], references: [id_lop])
+  id_lop Int? // <--- TRƯỜNG KHÓA NGOẠI
+  lop    Lop? @relation(fields: [id_lop], references: [id_lop])
 
   taiKhoanId String   @unique
   taiKhoan   TaiKhoan @relation(fields: [taiKhoanId], references: [id])
@@ -180,15 +182,83 @@ model DiemRenLuyen {
 // =======================================================
 // BẢNG TÀI KHOẢN (Authentication)
 // =======================================================
-model TaiKhoan {
-  id       String @id @default(cuid())
-  ten      String @db.VarChar(100)
-  email    String @unique @db.VarChar(100)
-  mat_khau String
-  anh      String
-  // thoi_gian_tao DateTime? @db.Date
-  vai_tro  Role   @default(Student)
 
-  sinhVien     SinhVien?
-  quanTri      QuanTri?
+// model TaiKhoan {
+//   id       String @id @default(cuid())
+//   ten      String @db.VarChar(100)
+//   email    String @unique @db.VarChar(100)
+//   mat_khau String
+//   anh      String
+//   // thoi_gian_tao DateTime? @db.Date
+//   vai_tro  Role   @default(Student)
+
+//   sinhVien     SinhVien?
+//   quanTri      QuanTri?
+// }
+
+model TaiKhoan {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  role          String    @default("Student")
+  sessions      Session[]
+  accounts      Account[]
+
+  sinhVien      SinhVien?
+  quanTri       QuanTri?
+
+  @@unique([email])
+  @@map("TaiKhoan")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  taikhoan  TaiKhoan @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  taikhoan              TaiKhoan  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
 }

@@ -1,0 +1,20 @@
+"use client"
+
+import { signInAction } from "@/app/actions/auth";
+
+
+function SignInForm() {
+
+  return (
+    <div className="flex flex-col items-center justify-center h-screen gap-4">
+      <h1 className="text-2xl font-bold">Sign In</h1>
+      <form action={signInAction} className="flex flex-col gap-3 w-64">
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
+  )
+}
+
+export default SignInForm;

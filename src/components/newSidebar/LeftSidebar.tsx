@@ -4,15 +4,24 @@ import { useState } from "react";
 import SideNavBar from "./SideNavBar";
 import { sidebarTabLists } from "./sidebarTabList";
 import SidebarButton from "./SidebarButton";
+import { PageTab } from "@/types/PageTab";
 
+export type SidebarType = "dashboard" | "class" | "score" | "report" | "create" | "view";
 
-function HomeSidebar() {
-  const [tab, setTab] = useState("");
-  const dashboardTabs = sidebarTabLists.dashboard;
+type TabType = {
+  default: string,
+  list: PageTab[]
+}
+
+function LeftSidebar({ sidebarType }: { sidebarType: SidebarType }) {
+  const sidebarTabs = sidebarTabLists[sidebarType] as TabType;
+
+  const [tab, setTab] = useState(sidebarTabs.default);
+  const tabs = sidebarTabs.list;
 
   return (
     <SideNavBar>
-      {dashboardTabs.map((menuTab) => (
+      {tabs.map((menuTab) => (
         <SidebarButton 
           key={menuTab.name}
           typography={menuTab.name}
@@ -25,4 +34,4 @@ function HomeSidebar() {
   )
 }
 
-export default HomeSidebar;
+export default LeftSidebar;

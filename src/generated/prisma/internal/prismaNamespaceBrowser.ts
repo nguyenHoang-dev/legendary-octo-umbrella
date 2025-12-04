@@ -56,7 +56,10 @@ export const ModelName = {
   HoatDong: 'HoatDong',
   ThamGia: 'ThamGia',
   DiemRenLuyen: 'DiemRenLuyen',
-  TaiKhoan: 'TaiKhoan'
+  TaiKhoan: 'TaiKhoan',
+  Session: 'Session',
+  Account: 'Account',
+  Verification: 'Verification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -96,6 +99,8 @@ export type HocKyScalarFieldEnum = (typeof HocKyScalarFieldEnum)[keyof typeof Ho
 
 export const SinhVienScalarFieldEnum = {
   ma_sv: 'ma_sv',
+  isCanSu: 'isCanSu',
+  khoa_nam: 'khoa_nam',
   id_lop: 'id_lop',
   taiKhoanId: 'taiKhoanId'
 } as const
@@ -145,14 +150,61 @@ export type DiemRenLuyenScalarFieldEnum = (typeof DiemRenLuyenScalarFieldEnum)[k
 
 export const TaiKhoanScalarFieldEnum = {
   id: 'id',
-  ten: 'ten',
+  name: 'name',
   email: 'email',
-  mat_khau: 'mat_khau',
-  anh: 'anh',
-  vai_tro: 'vai_tro'
+  emailVerified: 'emailVerified',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  role: 'role'
 } as const
 
 export type TaiKhoanScalarFieldEnum = (typeof TaiKhoanScalarFieldEnum)[keyof typeof TaiKhoanScalarFieldEnum]
+
+
+export const SessionScalarFieldEnum = {
+  id: 'id',
+  expiresAt: 'expiresAt',
+  token: 'token',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  userId: 'userId'
+} as const
+
+export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const AccountScalarFieldEnum = {
+  id: 'id',
+  accountId: 'accountId',
+  providerId: 'providerId',
+  userId: 'userId',
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
+  idToken: 'idToken',
+  accessTokenExpiresAt: 'accessTokenExpiresAt',
+  refreshTokenExpiresAt: 'refreshTokenExpiresAt',
+  scope: 'scope',
+  password: 'password',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+
+
+export const VerificationScalarFieldEnum = {
+  id: 'id',
+  identifier: 'identifier',
+  value: 'value',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
 export const SortOrder = {

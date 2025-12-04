@@ -1,5 +1,6 @@
 import { PageTab } from "@/types/PageTab";
 
+// Student tabs
 export const dashboardTab: PageTab = {
   name: "Dashboard",
   nav: "/dashboard/info",
@@ -24,6 +25,20 @@ export const reportTab: PageTab = {
   icon: "/report.svg"
 };
 
-export const pageTabLists: Record<string, PageTab[]> = {
+// Admin
+export const createTab: PageTab = {
+  name: "Tạo Mới",
+  nav: "/create/account",
+  icon: "",
+}
+
+export const viewTab: PageTab = {
+  name: "Quản Lý",
+  nav: "/admin-dashboard/students"
+}
+
+export const pageTabLists = {
   student: [dashboardTab, classTab, scoreTab, reportTab],
+  quanTri: [dashboardTab],
+  admin: [viewTab, createTab]
 }
